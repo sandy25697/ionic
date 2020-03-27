@@ -4,6 +4,7 @@ import { User } from "./user";
 import { Router } from "@angular/router";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class AuthenticationService {
     public afStore: AngularFirestore,
     public ngFireAuth: AngularFireAuth,
     public router: Router,  
-    public ngZone: NgZone 
+    public ngZone: NgZone,
+    public toastController: ToastController
   ) {
     this.ngFireAuth.authState.subscribe(user => {
       if (user) {
@@ -34,7 +36,32 @@ export class AuthenticationService {
   SignIn(email, password) {
     return this.ngFireAuth.auth.signInWithEmailAndPassword(email, password)
   }
+  
 
+
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Reset link has been successfully sent to your E-mail!',
+      duration: 5000,
+      position: 'middle',
+      color: 'secondary'
+    });
+    toast.present();
+  }
+
+  async presentToast1() {
+    const toast = await this.toastController.create({
+      message: 'Please Enter Registered E-mail!',
+      duration: 5000,
+      position: 'middle',
+      color: 'warning'
+    });
+    toast.present();
+  }
+userdetail()
+{
+  return this.ngFireAuth.auth.currentUser;
+}
   // Register user with email/password
   RegisterUser(email, password) {
     return this.ngFireAuth.auth.createUserWithEmailAndPassword(email, password)
@@ -49,12 +76,15 @@ export class AuthenticationService {
   }
 
   // Recover password
-  PasswordRecover(passwordResetEmail) {
-    return this.ngFireAuth.auth.sendPasswordResetEmail(passwordResetEmail)
+  PasswordRecover(value) {
+    return this.ngFireAuth.auth.sendPasswordResetEmail(value.email)
     .then(() => {
-      window.alert('Password reset email has been sent, please check your inbox.');
+      //window.alert('Password reset email has been sent, please check your inbox.');
+      this.router.navigate(['login']);
+      this.presentToast();
     }).catch((error) => {
-      window.alert(error)
+      this.presentToast1();
+      //window.alert(error)
     })
   }
 

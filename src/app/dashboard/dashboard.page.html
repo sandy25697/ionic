@@ -1,20 +1,79 @@
 <ion-header>
-  <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button></ion-back-button>
-      </ion-buttons>
-    <ion-title>dashboard</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-title>Notes With Benefits</ion-title>
+    </ion-toolbar>
 </ion-header>
 
+<ion-card>
+    <ion-card-header>
+        <ion-card-subtitle>Hey, Goodnight</ion-card-subtitle>
+        <ion-toolbar>
+            <ion-avatar slot="end">
+                <img src="assets/img/boy.png">
+            </ion-avatar>
+            <ion-card-title>{{ userEmail }}</ion-card-title>
+        </ion-toolbar>
+
+
+    </ion-card-header>
+</ion-card>
+
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <h2>Hello, User</h2>
-    </ion-row>
-    
-    <ion-row>
-      <ion-button type="submit" (click)="authService.SignOut()" expand="block">Logout</ion-button>
-    </ion-row>
-  </ion-grid>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+
+                <ion-card>
+                    <ion-card-header>
+                        <ion-card-title></ion-card-title>
+                        <ion-img src="assets/img/3.png"></ion-img>
+                    </ion-card-header>
+
+                </ion-card>
+
+            </ion-col>
+
+            <ion-col>
+                <ion-card>
+                    <ion-card-header>
+
+                        <ion-card-title></ion-card-title>
+                        <ion-img src="assets/img/3.png"></ion-img>
+                    </ion-card-header>
+
+                </ion-card>
+
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col>
+                <ion-card>
+                    <ion-card-header>
+
+                        <ion-card-title></ion-card-title>
+                        <ion-img src="assets/img/3.png"></ion-img>
+                    </ion-card-header>
+                </ion-card>
+
+            </ion-col>
+            <ion-col>
+                <ion-card>
+                    <ion-card-header>
+
+                        <ion-card-title></ion-card-title>
+                        <ion-img src="assets/img/3.png"></ion-img>
+                    </ion-card-header>
+
+                </ion-card>
+
+            </ion-col>
+
+        </ion-row>
+    </ion-grid>
 </ion-content>
+<ion-footer (click)="logout()">
+    <ion-toolbar color="primary">
+        <ion-title>Log out</ion-title>
+    </ion-toolbar>
+</ion-footer>
