@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
 import { Platform } from '@ionic/angular';
-
-
-
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -11,17 +9,33 @@ import { Platform } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-subscribe:any = "home";
   constructor(
     public router: Router,
-    public platform: Platform
+    public platform: Platform,
+    private alertCtrl: AlertController
   
 
   ) {
-    this.subscribe = this.platform.backButton.subscribe(()=>{      
-          navigator["app"].exit.App();
+    this.platform.backButton.subscribe(async () => {
+      if (this.router.isActive('/home', true) && this.router.url === '/home') {
+        const alert = await this.alertCtrl.create({
+          header: 'Do you want to exit?',
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'cancel'
+            }, {
+              text: 'Exit',
+              handler: () => {
+                navigator['app'].exitApp();
+              }
+            }
+          ]
+        });
 
-    })
+        await alert.present();
+      }
+    });
  
 }
  

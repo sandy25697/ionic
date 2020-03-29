@@ -148,7 +148,7 @@ userdetail()
         .then(() => {
           console.log("LOG Out");
           localStorage.removeItem('user');
-          this.router.navigate(['login']);
+          this.router.navigate(['home']);
           resolve();
         }).catch((error) => {
           reject();

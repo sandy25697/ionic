@@ -35,13 +35,16 @@ export class AppComponent {
     this.connectionService.monitor().subscribe(isConnected => {
       this.isConnected = isConnected;
       if (this.isConnected) {
+        //this.navCtrl.pop();
         this.status = "ONLINE";
-        this.router.navigate(['login']);
+        //this.router.navigate(['home']);
+        this.navCtrl.navigateRoot('/home');
         this.navCtrl.pop();
       }
       else {
         this.status = "OFFLINE";
         this.router.navigate(['network-error']);
+        this.navCtrl.pop();
         //this.nonet();
       }
     })
@@ -66,7 +69,16 @@ export class AppComponent {
           () => {
             this.navCtrl.pop();
             this.router.navigate(['login']);
-
+       //TODO
+         /*   this.ngFireAuth.authState.subscribe(
+            user => {
+            if(user.emailVerified) {
+            if (user) {
+              this.router.navigate(['dashboard']);
+            }
+          }
+        }); */
+            //
           } 
         );
 

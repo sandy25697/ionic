@@ -16,7 +16,6 @@ import { browser } from 'protractor';
 export class LoginPage implements OnInit {
   validations_form: FormGroup;
   errorMessage: string = '';
-  userEmail: string;
   constructor(
     public authService: AuthenticationService,
     public router: Router,
@@ -91,8 +90,6 @@ export class LoginPage implements OnInit {
     this.authService.SignIn(email.value, password.value)
       .then((res) => {
         if(res.user.emailVerified) {
-          this.userEmail = this.authService.userdetail().email;
-          this.presentLoading();
           console.log(res);
           this.errorMessage = "";
           this.validations_form.reset();
@@ -112,7 +109,7 @@ export class LoginPage implements OnInit {
   }
   async presentLoading() {
     const loading = await this.loadingController.create({
-      message: 'Logging In...'+this.userEmail+'',
+      message: 'Logging In...',
       duration: 2000
     });
     await loading.present();

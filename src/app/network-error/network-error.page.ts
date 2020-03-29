@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Platform } from '@ionic/angular';
+import { Router } from "@angular/router";
+
 
 @Component({
   selector: 'app-network-error',
@@ -7,7 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NetworkErrorPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public platform: Platform,
+    public router: Router
+
+  ) { 
+    this.platform.backButton.subscribe(async () => {
+      if (this.router.isActive('/network-error', true) && this.router.url === '/network-error') {
+        
+                navigator['app'].exitApp();
+      }
+        });
+    
+  }
 
   ngOnInit() {
   }
