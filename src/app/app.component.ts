@@ -10,6 +10,7 @@ import { LoadingController } from '@ionic/angular';
 import { Network } from '@capacitor/core';
 import { ConnectionService } from 'ng-connection-service';
 import { NavController } from '@ionic/angular';
+import { NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -28,23 +29,44 @@ export class AppComponent {
     private networkService: NetworkService,
     public loadingController: LoadingController,
     private connectionService: ConnectionService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private zone: NgZone
 
   
   ) {
     this.connectionService.monitor().subscribe(isConnected => {
       this.isConnected = isConnected;
       if (this.isConnected) {
-        //this.navCtrl.pop();
+        this.navCtrl.pop();
         this.status = "ONLINE";
         //this.router.navigate(['home']);
-        this.navCtrl.navigateRoot('/home');
-        this.navCtrl.pop();
+        this.ngFireAuth.authState
+        .subscribe(
+          user => {
+            if(user.emailVerified) {
+            if (user) {
+              this.router.navigate(['dashboard']);
+            } else {
+              this.router.navigate(['home']);
+              this.zone.run(() => {
+                console.log('force update the screen');
+                
+              });
+            }
+            }
+          })
+        //this.navCtrl.navigateBack('/login');
+        //this.router.navigate(['home']);
+       /* this.zone.run(() => {
+          console.log('force update the screen');
+          this.router.navigate(['dashboard']);
+        }); */
+        //this.navCtrl.pop();
       }
       else {
         this.status = "OFFLINE";
         this.router.navigate(['network-error']);
-        this.navCtrl.pop();
+       // this.navCtrl.pop();
         //this.nonet();
       }
     })
@@ -68,7 +90,7 @@ export class AppComponent {
           },
           () => {
             this.navCtrl.pop();
-            this.router.navigate(['login']);
+            this.router.navigate(['home']);
        //TODO
          /*   this.ngFireAuth.authState.subscribe(
             user => {
