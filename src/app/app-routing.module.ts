@@ -24,6 +24,11 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: () => import('./dashboard/dashboard.module').then( m => m.DashboardPageModule)
   },
+  {
+    path: 'network-error',
+    loadChildren: () => import('./network-error/network-error.module').then( m => m.NetworkErrorPageModule)
+  },
+  
 ];
 
 @NgModule({

@@ -22,13 +22,14 @@ export class DashboardPage implements OnInit {
 
 
   logout(){
-    this.authService.SignOut()
+    this.authService.logoutUser()
     .then(res => {
       console.log(res);
-     this.router.navigate(['login']); 
+     //this.router.navigate(['login']); 
     })
     .catch(error => {
       console.log(error);
+      this.router.navigate(['home']);
     })
   }
 }

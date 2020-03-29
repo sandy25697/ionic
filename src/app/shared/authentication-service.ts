@@ -134,10 +134,26 @@ userdetail()
   }
 
   // Sign-out 
-  SignOut() {
-    return this.ngFireAuth.auth.signOut().then(() => {
-      localStorage.removeItem('user');
-      this.router.navigate(['login']);
+  //SignOut() {
+  //  return this.ngFireAuth.auth.signOut().then(() => {
+    //  localStorage.removeItem('user');
+  //    this.router.navigate(['login']);
+  //  })
+ // }
+
+  logoutUser(){
+    return new Promise((resolve, reject) => {
+      if(this.ngFireAuth.auth.currentUser){
+        this.ngFireAuth.auth.signOut()
+        .then(() => {
+          console.log("LOG Out");
+          localStorage.removeItem('user');
+          this.router.navigate(['login']);
+          resolve();
+        }).catch((error) => {
+          reject();
+        });
+      }
     })
   }
 

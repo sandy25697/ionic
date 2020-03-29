@@ -5,6 +5,11 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { Router } from "@angular/router";
+import { NetworkService , ConnectionStatus} from "./../app/shared/NetworkService";
+import { LoadingController } from '@ionic/angular';
+import { Network } from '@capacitor/core';
+import { ConnectionService } from 'ng-connection-service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -12,13 +17,36 @@ import { Router } from "@angular/router";
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  constructor(
+  status = 'ONLINE';
+  isConnected = true;
+ constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     public ngFireAuth: AngularFireAuth,
-    public router: Router,  
+    private router: Router,
+    private networkService: NetworkService,
+    public loadingController: LoadingController,
+    private connectionService: ConnectionService,
+    private navCtrl: NavController
+
+  
   ) {
+    this.connectionService.monitor().subscribe(isConnected => {
+      this.isConnected = isConnected;
+      if (this.isConnected) {
+        this.status = "ONLINE";
+        this.router.navigate(['login']);
+        this.navCtrl.pop();
+      }
+      else {
+        this.status = "OFFLINE";
+        this.router.navigate(['network-error']);
+        //this.nonet();
+      }
+    })
+    
+    this.presentLoading();
     this.initializeApp();
   }
 
@@ -36,13 +64,33 @@ export class AppComponent {
             }
           },
           () => {
+            this.navCtrl.pop();
             this.router.navigate(['login']);
 
           } 
         );
 
+        this.networkService.onNetworkChange().subscribe((status: ConnectionStatus) => {
+          if (status === ConnectionStatus.Offline) {
+            console.log('status in app.component', status);
+            //this.offlineManager.checkForEvents().subscribe();
+          }
+        });
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
   }
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Please wait...',
+      duration: 2000
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed!');
+  }
+
+  
+  
 }

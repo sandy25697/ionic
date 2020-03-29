@@ -1,8 +1,11 @@
 import { Component,OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, EmailValidator } from '@angular/forms';
 import { AuthenticationService } from "../shared/authentication-service";
 import { ToastController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
+import { browser } from 'protractor';
+
 
 @Component({
   selector: 'app-login',
@@ -13,12 +16,18 @@ import { ToastController } from '@ionic/angular';
 export class LoginPage implements OnInit {
   validations_form: FormGroup;
   errorMessage: string = '';
+  userEmail: string;
   constructor(
     public authService: AuthenticationService,
     public router: Router,
     private formBuilder: FormBuilder,
+    private loadingController: LoadingController,
     public toastController: ToastController
-  ) {}
+  ) {
+    
+      
+    
+  }
 
 
   validation_messages = {
@@ -43,6 +52,7 @@ export class LoginPage implements OnInit {
         Validators.required
       ])),
     });
+    
   }
 
 
@@ -76,10 +86,13 @@ export class LoginPage implements OnInit {
     });
     toast.present();
   }
+  
   logIn(email, password) {
     this.authService.SignIn(email.value, password.value)
       .then((res) => {
         if(res.user.emailVerified) {
+          this.userEmail = this.authService.userdetail().email;
+          this.presentLoading();
           console.log(res);
           this.errorMessage = "";
           this.validations_form.reset();
@@ -96,6 +109,16 @@ export class LoginPage implements OnInit {
         //this.errorMessage = err.message;
       this.presentToast();
       })
+  }
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Logging In...'+this.userEmail+'',
+      duration: 2000
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed!');
   }
 
   goToRecoverPage(){

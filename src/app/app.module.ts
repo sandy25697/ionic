@@ -15,8 +15,11 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Network } from '@ionic-native/network/ngx';
+
 
 import { AuthenticationService } from "./../app/shared/authentication-service";
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,14 +32,17 @@ import { AuthenticationService } from "./../app/shared/authentication-service";
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFirestoreModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
+    
   ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AuthenticationService,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    Network
+
   ],
   bootstrap: [AppComponent]
 })
