@@ -35,7 +35,7 @@ export class DashboardPage implements OnInit {
 
   ngOnInit() {}
 
-
+ 
   logout(){
     this.authService.logoutUser()
     .then(res => {
@@ -45,7 +45,9 @@ export class DashboardPage implements OnInit {
     })
     .catch(error => {
       console.log(error);
-      this.router.navigate(['home']);
+      
     })
   }
+
+  
 }

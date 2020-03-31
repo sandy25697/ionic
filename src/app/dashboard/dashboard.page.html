@@ -1,79 +1,43 @@
 <ion-header>
-    <ion-toolbar color="primary">
+    <ion-toolbar>
         <ion-title>Notes With Benefits</ion-title>
+        <ion-buttons slot="primary">
+            <ion-button (click)="logout()">
+                <ion-icon slot="icon-only" name="log-out-outline" color="primary"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
-
-<ion-card>
-    <ion-card-header>
-        <ion-card-subtitle>Hey, Goodnight</ion-card-subtitle>
-        <ion-toolbar>
-            <ion-avatar slot="end">
-                <img src="assets/img/boy.png">
-            </ion-avatar>
-            <ion-card-title>{{ userEmail }}</ion-card-title>
-        </ion-toolbar>
-
-
-    </ion-card-header>
-</ion-card>
-
 <ion-content>
-    <ion-grid>
-        <ion-row>
-            <ion-col>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-subtitle color="danger">Hey, Goodnight</ion-card-subtitle>
+            <ion-toolbar>
+                <ion-avatar slot="end">
+                    <img src="assets/img/boy.png">
+                </ion-avatar>
+                <ion-card-title>{{ userEmail }}</ion-card-title>
+            </ion-toolbar>
+        </ion-card-header>
+    </ion-card>
+    <br>
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+        <ion-fab-button color="light">
+            <ion-icon md="caret-back" ios="chevron-back-circle-outline"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="start">
+            <ion-fab-button color="light" href="https://www.instagram.com/batscreations">
+                <ion-icon name="logo-instagram"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button color="light">
+                <ion-icon name="logo-twitter"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button color="light">
+                <ion-icon name="logo-vimeo"></ion-icon>
+            </ion-fab-button>
+        </ion-fab-list>
+    </ion-fab>
 
-                <ion-card>
-                    <ion-card-header>
-                        <ion-card-title></ion-card-title>
-                        <ion-img src="assets/img/3.png"></ion-img>
-                    </ion-card-header>
 
-                </ion-card>
 
-            </ion-col>
-
-            <ion-col>
-                <ion-card>
-                    <ion-card-header>
-
-                        <ion-card-title></ion-card-title>
-                        <ion-img src="assets/img/3.png"></ion-img>
-                    </ion-card-header>
-
-                </ion-card>
-
-            </ion-col>
-        </ion-row>
-
-        <ion-row>
-            <ion-col>
-                <ion-card>
-                    <ion-card-header>
-
-                        <ion-card-title></ion-card-title>
-                        <ion-img src="assets/img/3.png"></ion-img>
-                    </ion-card-header>
-                </ion-card>
-
-            </ion-col>
-            <ion-col>
-                <ion-card>
-                    <ion-card-header>
-
-                        <ion-card-title></ion-card-title>
-                        <ion-img src="assets/img/3.png"></ion-img>
-                    </ion-card-header>
-
-                </ion-card>
-
-            </ion-col>
-
-        </ion-row>
-    </ion-grid>
 </ion-content>
-<ion-footer (click)="logout()">
-    <ion-toolbar color="primary">
-        <ion-title>Log out</ion-title>
-    </ion-toolbar>
-</ion-footer>

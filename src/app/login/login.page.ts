@@ -57,7 +57,7 @@ export class LoginPage implements OnInit {
     const toast = await this.toastController.create({
       message: 'Please Enter Valid Email or Password',
       duration: 5000,
-      position: 'middle',
+      position: 'bottom',
       color: 'danger'
     });
     toast.present();
