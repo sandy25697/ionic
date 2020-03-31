@@ -23,9 +23,7 @@ export class LoginPage implements OnInit {
     private loadingController: LoadingController,
     public toastController: ToastController
   ) {
-    
-      
-    
+ 
   }
 
 
@@ -78,9 +76,9 @@ export class LoginPage implements OnInit {
   async presentToast2() {
     const toast = await this.toastController.create({
       message: 'OOPS!! Email not Verified.',
-      duration: 3000,
+      duration: 4000,
       color: 'danger',
-      position: 'middle'
+      position: 'bottom'
 
     });
     toast.present();
