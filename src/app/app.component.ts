@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { Router } from "@angular/router";
 import { NetworkService , ConnectionStatus} from "./../app/shared/NetworkService";
+import { AuthenticationService } from "./shared/authentication-service";
 import { LoadingController } from '@ionic/angular';
 import { Network } from '@capacitor/core';
 import { ConnectionService } from 'ng-connection-service';
@@ -30,80 +31,52 @@ export class AppComponent {
     public loadingController: LoadingController,
     private connectionService: ConnectionService,
     private navCtrl: NavController,
-    private zone: NgZone
+    private zone: NgZone,
+    public authService: AuthenticationService,
 
   
-  ) {
+  ) { 
+    this.presentLoading();
+    this.initializeApp();
+  }
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
     this.connectionService.monitor().subscribe(isConnected => {
       this.isConnected = isConnected;
       if (this.isConnected) {
-        this.navCtrl.pop();
-        this.status = "ONLINE";
-        //this.router.navigate(['home']);
-        this.ngFireAuth.authState
-        .subscribe(
-          user => {
-            if(user.emailVerified) {
-            if (user) {
-              this.router.navigate(['dashboard']);
-            } else {
-              this.router.navigate(['home']);
-              this.zone.run(() => {
-                console.log('force update the screen');
-                
-              });
-            }
-            }
-          })
-        //this.navCtrl.navigateBack('/login');
-        //this.router.navigate(['home']);
-       /* this.zone.run(() => {
-          console.log('force update the screen');
-          this.router.navigate(['dashboard']);
-        }); */
         //this.navCtrl.pop();
-      }
+        this.status = "ONLINE";
+        //this.router.navigateByUrl('/home');
+        window.location.assign("/home");
+        //alert("online");
+  
+  }
       else {
         this.status = "OFFLINE";
         this.router.navigate(['network-error']);
+        //window.location.assign("/network-error");
        // this.navCtrl.pop();
         //this.nonet();
       }
     })
-    
-    this.presentLoading();
-    this.initializeApp();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.ngFireAuth.authState
-        .subscribe(
-          user => {
-            if(user.emailVerified) {
-            if (user) {
-              this.router.navigate(['dashboard']);
-            } else {
-              this.router.navigate(['home']);
-            }
-            }
-          },
-          () => {
-            this.navCtrl.pop();
-            this.router.navigate(['home']);
-       //TODO
-         /*   this.ngFireAuth.authState.subscribe(
-            user => {
-            if(user.emailVerified) {
-            if (user) {
-              this.router.navigate(['dashboard']);
-            }
-          }
-        }); */
-            //
-          } 
-        );
 
+      this.ngFireAuth.authState
+      .subscribe(
+        user => {
+          if(user.emailVerified) {
+          if (user) {
+            this.router.navigate(['dashboard']);
+          } else {
+            this.router.navigate(['home']);
+          }
+          }
+        }
+      );
         this.networkService.onNetworkChange().subscribe((status: ConnectionStatus) => {
           if (status === ConnectionStatus.Offline) {
             console.log('status in app.component', status);

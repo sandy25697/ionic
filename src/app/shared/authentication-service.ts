@@ -20,16 +20,7 @@ export class AuthenticationService {
     public ngZone: NgZone,
     public toastController: ToastController
   ) {
-    this.ngFireAuth.authState.subscribe(user => {
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user'));
-      } else {
-        localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
-      }
-    })
+    
   }
 
   // Login in with email/password
@@ -89,17 +80,23 @@ userdetail()
   }
 
   // Returns true when user is looged in
-  get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return (user !== null && user.emailVerified !== false) ? true : false;
-  }
-
-  // Returns true when user's email is verified
-  get isEmailVerified(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return (user.emailVerified !== false) ? true : false;
-  }
-
+ userLogged(){
+  this.ngFireAuth.authState
+  .subscribe(
+    user => {
+      if(user.emailVerified) {
+      if (user) {
+        this.router.navigate(['dashboard']);
+      } else {
+        this.router.navigate(['home']);
+      }
+      }
+    },
+    () => {
+      this.router.navigate(['home']);
+    } 
+  );
+ }
   // Sign in with Gmail
   GoogleAuth() {
     return this.AuthLogin(new auth.GoogleAuthProvider());
