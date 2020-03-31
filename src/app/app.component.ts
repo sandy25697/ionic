@@ -21,6 +21,7 @@ import { NgZone } from '@angular/core';
 export class AppComponent {
   status = 'ONLINE';
   isConnected = true;
+  private loading: any = null;
  constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -46,9 +47,21 @@ export class AppComponent {
       this.isConnected = isConnected;
       if (this.isConnected) {
         //this.navCtrl.pop();
+        this.dismissLoading();
+        const user = this.ngFireAuth.auth.currentUser;
         this.status = "ONLINE";
-        //this.router.navigateByUrl('/home');
-        window.location.assign("/home");
+        if(user)
+        {
+        this.router.navigateByUrl('/dashboard');
+        //window.location.assign("/dashboard");
+        alert("abhijith");
+        }
+        else
+        {
+          //this.router.navigateByUrl('/home');
+          window.location.assign("/home");
+        }
+        //window.location.assign("/home");
         //alert("online");
   
   }
@@ -68,13 +81,19 @@ export class AppComponent {
       this.ngFireAuth.authState
       .subscribe(
         user => {
+            if (this.isConnected) {
           if(user.emailVerified) {
           if (user) {
             this.router.navigate(['dashboard']);
-          } else {
-            this.router.navigate(['home']);
-          }
-          }
+            //alert("sandeep");
+          } 
+        }
+        else {
+          this.router.navigate(['home']);
+        }
+      }
+          
+          
         }
       );
         this.networkService.onNetworkChange().subscribe((status: ConnectionStatus) => {
@@ -83,7 +102,7 @@ export class AppComponent {
             //this.offlineManager.checkForEvents().subscribe();
           }
         });
-      this.statusBar.styleDefault();
+      this.statusBar.styleLightContent();
       this.splashScreen.hide();
     });
   }
@@ -98,6 +117,20 @@ export class AppComponent {
     console.log('Loading dismissed!');
   }
 
-  
+  //
+  private async presentLoading1() {
+    this.loading = await this.loadingController.create({
+      message: 'Waiting for connection...',
+    });
+
+    return await this.loading.present();
+  }
+
+  private async dismissLoading() {
+    if ((this.loading !== null) && (typeof this.loading !== 'undefined')) {
+      this.loading.dismiss();
+      this.loading = null;
+    }
+  }
   
 }

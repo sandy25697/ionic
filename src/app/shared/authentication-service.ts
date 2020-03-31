@@ -96,7 +96,7 @@ userdetail()
       this.router.navigate(['home']);
     } 
   );
- }
+ } 
   // Sign in with Gmail
   GoogleAuth() {
     return this.AuthLogin(new auth.GoogleAuthProvider());
