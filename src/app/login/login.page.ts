@@ -66,7 +66,7 @@ export class LoginPage implements OnInit {
   async presentToast1() {
     const toast = await this.toastController.create({
       message: 'Login Successful.',
-      duration: 3000,
+      duration: 1000,
       color: 'success',
 
     });
@@ -108,7 +108,7 @@ export class LoginPage implements OnInit {
   async presentLoading() {
     const loading = await this.loadingController.create({
       message: 'Logging In...',
-      duration: 2000
+      duration: 1000
     });
     await loading.present();
 
