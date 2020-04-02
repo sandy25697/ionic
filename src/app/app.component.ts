@@ -54,7 +54,7 @@ export class AppComponent {
         {
         this.router.navigateByUrl('/dashboard');
         //window.location.assign("/dashboard");
-        alert("abhijith");
+       // alert("abhijith");
         }
         else
         {

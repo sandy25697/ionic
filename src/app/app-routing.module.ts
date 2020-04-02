@@ -30,7 +30,11 @@ const routes: Routes = [
   {
     path: 'network-error',
     loadChildren: () => import('./network-error/network-error.module').then( m => m.NetworkErrorPageModule)
+  },  {
+    path: 'subjects',
+    loadChildren: () => import('./subjects/subjects.module').then( m => m.SubjectsPageModule)
   },
+
   
 ];
 

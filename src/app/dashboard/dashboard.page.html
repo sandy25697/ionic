@@ -8,7 +8,7 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content padding >
     <ion-card>
         <ion-card-header>
             <ion-card-subtitle color="danger">Hey, Goodnight</ion-card-subtitle>
@@ -20,6 +20,98 @@
             </ion-toolbar>
         </ion-card-header>
     </ion-card>
+    <br>
+   
+    <ion-list>
+        <form class="form" [formGroup]="validations_form" >
+
+        <ion-item >
+            <ion-icon name="cog-outline" slot="start"></ion-icon>
+            <ion-label color="primary">Select Branch</ion-label>
+            <ion-select interface="action-sheet"  color="primary" [(ngModel)]="selectedPolicy.branch"  formControlName="branch">
+              <ion-select-option value="cs">Computer Science</ion-select-option>
+              <ion-select-option value="ec">Electronics & Communication</ion-select-option>
+              <ion-select-option value="is">Information Science</ion-select-option>
+              <ion-select-option value="ee">Electricals & Electronics</ion-select-option>
+              <ion-select-option value="me">Mechanical</ion-select-option>
+              <ion-select-option value="cv">Civil</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.branch">
+                <div class="error-message" *ngIf="validations_form.get('branch').hasError(validation.type) && (validations_form.get('branch').dirty || validations_form.get('branch').touched)">
+                    {{ validation.message }}
+                </div>
+            </ng-container>
+        </div>
+          <br>
+        <ion-item >
+            <ion-icon name="rocket-outline" slot="start"></ion-icon>
+            <ion-label color="primary">Select Semester</ion-label>
+            <ion-select   interface="action-sheet"  color="primary" [(ngModel)]="selectedPolicy.sem" (ionChange)="subject();"  formControlName="sem">
+              <ion-select-option value="1" >1</ion-select-option>
+              <ion-select-option value="2">2</ion-select-option>
+              <ion-select-option value="3">3</ion-select-option>
+              <ion-select-option value="4">4</ion-select-option>
+              <ion-select-option value="5">5</ion-select-option>
+              <ion-select-option value="6">6</ion-select-option>
+              <ion-select-option value="7">7</ion-select-option>
+              <ion-select-option value="8">8</ion-select-option>
+            </ion-select>
+          </ion-item> 
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.sem">
+                <div class="error-message" *ngIf="validations_form.get('sem').hasError(validation.type) && (validations_form.get('sem').dirty || validations_form.get('sem').touched)">
+                    {{ validation.message }}
+                </div>
+            </ng-container>
+        </div>
+          <br>
+          <ion-item >
+            <ion-icon name="rocket-outline" slot="start"></ion-icon>
+            <ion-label color="primary">Select Semester</ion-label>
+            <ion-select   interface="action-sheet"  color="primary" [(ngModel)]="selectedPolicy.sub" formControlName="sub">
+              <ion-select-option  *ngFor ="let d of dbData;" value="{{d.sub}}" >{{d.sub}}</ion-select-option>
+            </ion-select>
+          </ion-item> 
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.sub">
+                <div class="error-message" *ngIf="validations_form.get('sub').hasError(validation.type) && (validations_form.get('sub').dirty || validations_form.get('sub').touched)">
+                    {{ validation.message }}
+                </div>
+            </ng-container>
+        </div>
+          <br>
+          <section>
+            <ion-button [disabled]="!validations_form.valid" expand="block" (click)="subject();" >SUBMIT</ion-button>
+          </section>
+        </form>
+    </ion-list>
+    <ion-card color="dark">
+        <ion-card-header>
+            <img src="assets/img/connection.svg" style="height: 50px;width: 50px;">
+
+        </ion-card-header>
+      
+        <ion-card-content>
+           
+                <h1>BATS CREATIONS</h1>
+            
+        </ion-card-content>
+      </ion-card><h1 *ngFor ="let d of dbData;">{{d.sub}}</h1>
+
+    <ion-card color="dark">
+        <ion-card-header>
+            <img src="assets/img/connection.svg" style="height: 50px;width: 50px;">
+
+        </ion-card-header>
+      
+        <ion-card-content>
+           
+                <h1>BATS CREATIONS</h1>
+            
+        </ion-card-content>
+      </ion-card>
     <br>
     <ion-fab horizontal="end" vertical="bottom" slot="fixed">
         <ion-fab-button color="light">

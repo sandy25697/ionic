@@ -16,6 +16,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Network } from '@ionic-native/network/ngx';
+import { HttpClientModule } from '@angular/common/http';
 
 
 import { AuthenticationService } from "./../app/shared/authentication-service";
@@ -32,6 +33,7 @@ import { AuthenticationService } from "./../app/shared/authentication-service";
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFirestoreModule,
+    HttpClientModule,
     ReactiveFormsModule
     
   ],
